@@ -86,8 +86,8 @@ function FreeFlightCamera:setup_gui()
 		local text = panel:text({
 			font = tweak_data.menu.default_font,
 			color = DESELECTED,
-			align = "left",
-			x = 2,
+			align = "center",
+			layer = 1,
 			y = 2,
 		})
 		text:set_text(a:name())
@@ -95,11 +95,7 @@ function FreeFlightCamera:setup_gui()
 		text:set_w(w + 2)
 		text:set_h(h + 2)
 
-		panel:rect({
-			color = Color.black,
-			alpha = 0.4,
-		})
-
+		panel:rect({ color = Color.black, alpha = 0.4, layer = -1 })
 		panel:set_size(w + 4, h + 4)
 		panel:set_y(panel:y() + ((h + 4) * (i - 1)))
 
@@ -125,26 +121,19 @@ function FreeFlightCamera:setup_gui()
 			font = tweak_data.menu.default_font,
 			color = DESELECTED,
 			align = "center",
+			layer = 1,
 			y = 2,
 		})
-		-- text:set_text(m:name_value())
 		text:set_text(string.format("%s %.2f", tostring(m._name), m._values[m._index]))
 		local _, _, w, h = text:text_rect()
 		text:set_w(w + 2)
 		text:set_h(h + 2)
 
-		panel:rect({
-			color = Color.black,
-			alpha = 0.4,
-		})
-
-		panel:set_size(w + 4, h + 4)
+		panel:rect({ color = Color.black, alpha = 0.4, layer = -1 })
+		panel:set_size(w + 2, h + 2)
 		panel:set_y(panel:y() + ((h + 4) * (i - 1)))
 
 		text:set_world_x(panel:world_x())
-
-		-- _sdk:debug_panel_outline(panel)
-
 		panel:set_world_right(self._panel:world_right() - 45)
 
 		if i == self._modifier_index then
@@ -299,23 +288,40 @@ end
 
 function FreeFlightCamera:curr_modifier_up()
 	if self:modifiers_are_visible() then
-		self:current_modifier():step_up()
-		self._modifier_gui[self._modifier_index]:child(0):set_text(self:current_modifier():name_value())
-		local _, _, w, h = self._modifier_gui[self._modifier_index]:child(0):text_rect()
-		self._modifier_gui[self._modifier_index]:set_size(w + 2, h + 2)
-		self._modifier_gui[self._modifier_index]:set_world_right(self._panel:world_right() - 45)
+		local modifier = self:current_modifier()
+		modifier:step_up()
+		local panel = self._modifier_gui[self._modifier_index]
+		local text = panel:child(0)
+
+		text:set_text(string.format("%s %.2f", tostring(modifier._name), modifier._values[modifier._index]))
+		local _, _, w, h = text:text_rect()
+		text:set_w(w + 2)
+		text:set_h(h + 2)
+		panel:set_size(w + 2, h + 2)
+		text:set_world_x(panel:world_x())
+		panel:set_world_right(self._panel:world_right() - 45)
 	end
+
 	self:draw_modifiers()
 end
 
 function FreeFlightCamera:curr_modifier_down()
 	if self:modifiers_are_visible() then
-		self:current_modifier():step_down()
-		self._modifier_gui[self._modifier_index]:child(0):set_text(self:current_modifier():name_value())
-		local _, _, w, h = self._modifier_gui[self._modifier_index]:child(0):text_rect()
-		self._modifier_gui[self._modifier_index]:set_size(w + 2, h + 2)
-		self._modifier_gui[self._modifier_index]:set_world_right(self._panel:world_right() - 45)
+		local modifier = self:current_modifier()
+		modifier:step_down()
+		local panel = self._modifier_gui[self._modifier_index]
+		local text = panel:child(0)
+
+		text:set_text(string.format("%s %.2f", tostring(modifier._name), modifier._values[modifier._index]))
+		local _, _, w, h = text:text_rect()
+		text:set_w(w + 2)
+		text:set_h(h + 2)
+		text:set_world_x(panel:world_x())
+
+		panel:set_size(w + 2, h + 2)
+		panel:set_world_right(self._panel:world_right() - 45)
 	end
+
 	self:draw_modifiers()
 end
 
