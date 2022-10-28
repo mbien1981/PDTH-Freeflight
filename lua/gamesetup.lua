@@ -99,7 +99,6 @@ function FreeFlightCamera:setup_gui()
 		panel:set_size(w + 4, h + 4)
 		panel:set_y(panel:y() + ((h + 4) * (i - 1)))
 
-		-- _sdk:debug_panel_outline(panel)
 		if i == self._action_index then
 			text:set_color(SELECTED)
 		end
