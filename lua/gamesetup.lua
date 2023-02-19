@@ -343,9 +343,14 @@ function FreeFlightCamera:draw_actions()
 	end
 
 	for i, _ in ipairs(self._actions) do
-		self._action_gui[i]:child(0):set_text(self._actions[i]:name())
-		local _, _, w, h = self._action_gui[i]:child(0):text_rect()
-		self._action_gui[i]:set_size(w + 2, h + 2)
+		local item = self._action_gui[i]
+		local text = item:child(0)
+
+		text:set_text(self._actions[i]:name())
+
+		local _, _, w, h = text:text_rect()
+		text:set_size(w, h)
+		item:set_size(w + 2, h + 2)
 	end
 
 	self._action_vis_time = TimerManager:main():time() + TEXT_ON_SCREEN_TIME
