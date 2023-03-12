@@ -3,8 +3,8 @@ core:import("CoreApp")
 core:import("CoreFreeFlightAction")
 core:import("CoreFreeFlightModifier")
 
--- FreeFlightCamera = FreeFlightCamera or {}
-rawset(_M, "FreeFlightCamera", {})
+FreeFlightCamera = FreeFlightCamera or {}
+
 local FF_ON, FF_OFF, FF_ON_NOCON = 0, 1, 2
 local MOVEMENT_SPEED_BASE = 1000
 local FAR_RANGE_MAX = 250000
@@ -542,16 +542,15 @@ function FreeFlightCamera:enabled()
 	return self._state ~= FF_OFF
 end
 
-local module = ... or D:module("freeflight")
 local GameSetup = module:hook_class("GameSetup")
 module:post_hook(50, GameSetup, "paused_update", function(self, t, dt)
-	_M.FreeFlightCamera:update(t, dt)
+	FreeFlightCamera:update(t, dt)
 end)
 
 module:post_hook(50, GameSetup, "update", function(self, t, dt)
-	_M.FreeFlightCamera:update(t, dt)
+	FreeFlightCamera:update(t, dt)
 end)
 
-module:post_hook(50, GameSetup, "init_managers", function(self, t, dt)
-	_M.FreeFlightCamera:init()
+module:post_hook(50, GameSetup, "init_managers", function(self)
+	FreeFlightCamera:init()
 end)
