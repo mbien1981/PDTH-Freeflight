@@ -542,6 +542,7 @@ function FreeFlightCamera:enabled()
 	return self._state ~= FF_OFF
 end
 
+local module = ... or D:module("freeflight")
 local GameSetup = module:hook_class("GameSetup")
 module:post_hook(50, GameSetup, "paused_update", function(self, t, dt)
 	FreeFlightCamera:update(t, dt)

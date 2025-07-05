@@ -1,12 +1,11 @@
-local module = DMod:new("freeflight", {
+return DMod:new("freeflight", {
 	author = "Luffy, Dr_Newbie, _atom",
-	allow_globals = true,
+	version = 2,
 	categories = { "debug", "gameplay" },
 	description = {
 		english = "Free Flight Camera",
 	},
+	hooks = {
+		["lib/setups/gamesetup"] = "lua/gamesetup",
+	},
 })
-
-module:hook_post_require("lib/setups/gamesetup", "lua/gamesetup")
-
-return module
